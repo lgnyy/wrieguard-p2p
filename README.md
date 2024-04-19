@@ -23,31 +23,32 @@ peer: bdFY7I+kVDMnFP/EoO306nghee4AGI2cSGZ2V9EFJQQ=
   allowed ips: 10.10.0.3/32
 ```
 
-以下用nodejs、lua脚本实现，修改相应的ip和port即可。
-
-- 
+以下用nodejs、lua脚本实现，修改相应的ip和port（服务端口）即可。
 
 ## nodejs
 ------------
 
 ### 对端（nET2q2OK2sgovco21Joscckg31CcN6s8xy41nyle9Dg=）
-
+从服务器收到命令，设置或删除peer信息
 ```bash
-    sudo node ./wgsvr.js wg0 10.10.0.2 33055
+# 参数说明：wireguard网卡名称， wireguard网卡的IP，服务端口
+sudo node ./wgsvr.js wg0 10.10.0.2 33055
 ```
   
 ### 服务器（转发）
-
+提供查询及转发
 ```bash
-  sudo node ./wgtrf.js wg0 10.10.0.1 33055
+# 参数说明：wireguard网卡名称，wireguard网卡的IP，服务端口
+sudo node ./wgtrf.js wg0 10.10.0.1 33055
 ```
 
-### 客户端（bdFY7I+kVDMnFP/EoO306nghee4AGI2cSGZ2V9EFJQQ=）（管理员）
-
+### 客户端（bdFY7I+kVDMnFP/EoO306nghee4AGI2cSGZ2V9EFJQQ=）
+window客户端，要以管理员运行。
 更新p2p连接信息（带心跳），关闭进程自动删除p2p连接信息
 
 ```bash
-  node client.js wg0 10.10.0.1 33055 setx 10.10.0.2
+# 参数说明：wireguard网卡名称，服务器的wireguard网卡IP，服务端口，命令，对方IP
+node client.js wg0 10.10.0.1 33055 setx 10.10.0.2
 ```
 
 更新p2p连接信息
