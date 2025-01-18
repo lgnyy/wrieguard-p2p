@@ -2,7 +2,7 @@
 local socket = require("socket.core")
 
 
-local function start(device, address, port, mode, peerIP)
+local function start(device, address, port, mode, peerIP, extCmd)
 	local cmd_pre = string.format("wg set %s peer ", device)
 
 	local m = socket.udp()
@@ -18,6 +18,10 @@ local function start(device, address, port, mode, peerIP)
 			if (i == 1) then
 				local _,cmd_data = data:match("^([^ ]+) (.+)$")
 				os.execute(cmd_pre .. cmd_data)
+				
+				if extCmd then
+					os.execute(cmd_pre .. extCmd)
+				end
 			end
 		end
 	end
@@ -54,4 +58,4 @@ local function start(device, address, port, mode, peerIP)
 	print(string.format("[%d][client] close", os.millisecond()))
 end
 
-start(arg[1] or "wg0", arg[2] or "10.0.8.1", arg[3] or 33055, arg[4] or "setx", arg[5] or "10.0.8.27")
+start(arg[1] or "wg0", arg[2] or "10.0.8.1", arg[3] or 33055, arg[4] or "setx", arg[5] or "10.0.8.27", arg[6])
